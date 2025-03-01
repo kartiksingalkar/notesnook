@@ -27,6 +27,7 @@ import { clearLogs, downloadLogs } from "../../utils/logger";
 import { useAutoUpdateStore } from "../../hooks/use-auto-updater";
 import { IssueDialog } from "../issue-dialog";
 import { strings } from "@notesnook/intl";
+import { desktop } from "../../common/desktop-bridge";
 
 export const AboutSettings: SettingsGroup[] = [
   {
@@ -72,6 +73,52 @@ export const AboutSettings: SettingsGroup[] = [
             }
           ];
         }
+      },
+      {
+        key: "release-track",
+        title: strings.releaseTrack(),
+        description: strings.releaseTrackDesc(),
+        components: [
+          {
+            type: "dropdown",
+            options: [
+              {
+                title: strings.stable(),
+                value: "stable"
+              },
+              {
+                title: strings.beta(),
+                value: "beta"
+              }
+            ],
+            selectedOption: async () => {
+              if (IS_DESKTOP_APP)
+                return (
+                  (await desktop?.updater.releaseTrack.query()) || "stable"
+                );
+
+              return (
+                document.cookie
+                  .split("; ")
+                  .find((row) => row.startsWith("release-track="))
+                  ?.split("=")[1] || "stable"
+              );
+            },
+            async onSelectionChanged(value) {
+              if (IS_DESKTOP_APP) {
+                return await desktop?.updater.changeReleaseTrack.mutate({
+                  track: value
+                });
+              }
+              const registrations =
+                (await navigator.serviceWorker?.getRegistrations()) || [];
+              for (const registration of registrations) {
+                await registration.unregister();
+              }
+              window.location.reload();
+            }
+          }
+        ]
       },
       {
         key: "source-code",

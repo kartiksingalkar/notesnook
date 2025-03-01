@@ -29,10 +29,12 @@ import { patchBetterSQLite3 } from "./patch-better-sqlite3.mjs";
 const args = yargs(process.argv);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const root = args.root || path.join(__dirname, "..");
+const skipTscBuild = args.skipTscBuild || false;
 
 const webAppPath = path.resolve(path.join(__dirname, "..", "..", "web"));
 
-await fs.rm("./build/", { force: true, recursive: true });
+await fs.rm(path.join(root, "build"), { force: true, recursive: true });
 
 if (args.rebuild || !existsSync(path.join(webAppPath, "build"))) {
   await exec(
@@ -44,21 +46,25 @@ if (args.rebuild || !existsSync(path.join(webAppPath, "build"))) {
 // temporary until there's support for prebuilt binaries for linux ARM
 if (os.platform() === "linux") await patchBetterSQLite3();
 
-await fs.cp(path.join(webAppPath, "build"), "build", {
+await fs.cp(path.join(webAppPath, "build"), path.join(root, "build"), {
   recursive: true,
   force: true
 });
 
 if (args.variant === "mas") {
-  await exec(`yarn run bundle:mas`);
+  await exec(`yarn run bundle:mas --outdir=${path.join(root, "build")}`);
 } else {
-  await exec(`yarn run bundle`);
+  await exec(`yarn run bundle --outdir=${path.join(root, "build")}`);
 }
 
-await exec(`yarn run build`);
+if (!skipTscBuild) {
+  await exec(`yarn run build`);
+}
 
 if (args.run) {
-  await exec(`yarn electron-builder --dir --${process.arch}`);
+  await exec(
+    `yarn electron-builder --dir --${process.arch} --config=electron-builder.config.js`
+  );
   if (process.platform === "win32") {
     await exec(`.\\output\\win-unpacked\\Notesnook.exe`);
   } else if (process.platform === "darwin") {
