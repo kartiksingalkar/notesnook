@@ -25,6 +25,7 @@ import Placeholder from "../components/placeholders";
 import { db } from "../common/db";
 import { useSearch } from "../hooks/use-search";
 import { ListLoader } from "../components/loaders/list-loader";
+import { Excalidraw } from "@excalidraw/excalidraw";
 
 function Reminders() {
   useNavigate("reminders", () => store.refresh());
@@ -46,6 +47,10 @@ function Reminders() {
           onClick: () => hashNavigate("/reminders/create")
         }}
       />
+      <h1 style={{ textAlign: "center" }}>Excalidraw Example</h1>
+      <div style={{ height: "500px" }}>
+        <Excalidraw />
+      </div>
     </>
   );
 }

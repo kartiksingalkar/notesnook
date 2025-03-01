@@ -148,7 +148,7 @@ function ThemesList() {
 
   return (
     <>
-      <Input
+      {/* <Input
         placeholder={strings.searchThemes()}
         sx={{ mt: 2 }}
         onChange={debounce((e) => setSearchQuery(e.target.value), 500)}
@@ -242,7 +242,7 @@ function ThemesList() {
         {!themes.isInitialLoading && themes.isFetching ? (
           <Loading color="accent" sx={{ mt: 2 }} />
         ) : null}
-      </Box>
+      </Box> */}
     </>
   );
 }

@@ -126,36 +126,36 @@ const sectionGroups: SectionGroup[] = [
         key: "notifications",
         title: strings.notifications(),
         icon: Notification
-      },
-      { key: "servers", title: strings.servers(), icon: Servers }
+      }
+      // { key: "servers", title: strings.servers(), icon: Servers }
     ]
   },
   {
     key: "import-export",
     title: strings.importExport(),
     sections: [
-      { key: "backup-export", title: strings.backupExport(), icon: Backup },
-      { key: "importer", title: strings.notesnookImporter(), icon: Import }
+      { key: "backup-export", title: strings.backupExport(), icon: Backup }
+      // { key: "importer", title: strings.notesnookImporter(), icon: Import }
     ]
   },
   {
     key: "security",
     title: strings.privacyAndSecurity(),
     sections: [
-      { key: "app-lock", title: strings.appLock(), icon: CellphoneLock },
-      { key: "vault", title: strings.vault(), icon: ShieldLock },
-      { key: "privacy", title: strings.privacy(), icon: Privacy }
-    ]
-  },
-  {
-    key: "other",
-    title: strings.other(),
-    sections: [
-      { key: "legal", title: strings.legal(), icon: Legal },
-      { key: "support", title: strings.helpAndSupport(), icon: Documentation },
-      { key: "about", title: strings.about(), icon: About }
+      { key: "app-lock", title: strings.appLock(), icon: CellphoneLock }
+      // { key: "vault", title: strings.vault(), icon: ShieldLock },
+      // { key: "privacy", title: strings.privacy(), icon: Privacy }
     ]
   }
+  // {
+  //   key: "other",
+  //   title: strings.other(),
+  //   sections: [
+  //     { key: "legal", title: strings.legal(), icon: Legal },
+  //     { key: "support", title: strings.helpAndSupport(), icon: Documentation },
+  //     { key: "about", title: strings.about(), icon: About }
+  //   ]
+  // }
 ];
 
 const SettingsGroups = [
@@ -548,8 +548,8 @@ function SettingItem(props: { item: Setting }) {
                         Number.isNaN(value) || value < component.min
                           ? component.min
                           : value > component.max
-                          ? component.max
-                          : value;
+                            ? component.max
+                            : value;
                       component.onChange(value);
                     }, 500)}
                   />

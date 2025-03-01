@@ -89,12 +89,12 @@ export const AppearanceSettings: SettingsGroup[] = [
             }
           }
         ]
-      },
-      {
-        key: "themes",
-        title: strings.selectTheme(),
-        components: [{ type: "custom", component: ThemesSelector }]
       }
+      // {
+      //   key: "themes",
+      //   title: strings.selectTheme(),
+      //   components: [{ type: "custom", component: ThemesSelector }]
+      // }
     ]
   }
 ];
