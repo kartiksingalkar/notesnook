@@ -74,10 +74,11 @@ import { strings } from "@notesnook/intl";
 import { onPageVisibilityChanged } from "../../utils/page-visibility";
 import { Pane, SplitPane } from "../split-pane";
 import { TITLE_BAR_HEIGHT } from "../title-bar";
+import ExcalidrawExample from "../../views/excalidraw";
 
 const PDFPreview = React.lazy(() => import("../pdf-preview"));
 
-const autoSaveToast = { show: true, hide: () => {} };
+const autoSaveToast = { show: true, hide: () => { } };
 
 async function saveContent(
   noteId: string,
@@ -235,10 +236,10 @@ function EditorView({
   session
 }: {
   session:
-    | DefaultEditorSession
-    | NewEditorSession
-    | ReadonlyEditorSession
-    | DeletedEditorSession;
+  | DefaultEditorSession
+  | NewEditorSession
+  | ReadonlyEditorSession
+  | DeletedEditorSession;
 }) {
   const lastChangedTime = useRef<number>(0);
   const root = useRef<HTMLDivElement>(null);
@@ -318,8 +319,8 @@ function EditorView({
         background: "background"
       }}
     >
-      <div className="dialogContainer" />
-      <Editor
+      {/* <div className="dialogContainer" /> */}
+      {/* <Editor
         id={session.id}
         nonce={1}
         content={getContent}
@@ -370,7 +371,8 @@ function EditorView({
           onRequestFocus: () => toggleProperties(false),
           focusMode: isFocusMode
         }}
-      />
+      /> */}
+      <ExcalidrawExample />
     </Flex>
   );
 }

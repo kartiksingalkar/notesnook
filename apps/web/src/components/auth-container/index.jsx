@@ -167,7 +167,7 @@ function AuthContainer(props) {
           <Text variant={"heading"} sx={{ fontSize: 48 }}>
             {title}
           </Text>
-          <Text
+          {/* <Text
             variant="body"
             mt={10}
             sx={{ fontSize: 14, color: "paragraph-secondary" }}
@@ -193,9 +193,9 @@ function AuthContainer(props) {
               </Text>
               <Text variant="subBody">@{testimonial.username}</Text>
             </Flex>
-          </Flex>
+          </Flex> */}
 
-          <Flex
+          {/* <Flex
             mt={2}
             pt={2}
             sx={{
@@ -206,8 +206,8 @@ function AuthContainer(props) {
           >
             <Text variant={"subBody"}>
               {version.status === "fulfilled" &&
-              !!version.value &&
-              version.value.instance !== "default" ? (
+                !!version.value &&
+                version.value.instance !== "default" ? (
                 <>
                   {strings.usingInstance(
                     version.value.instance,
@@ -224,7 +224,7 @@ function AuthContainer(props) {
             >
               {strings.configure()}
             </Button>
-          </Flex>
+          </Flex> */}
         </Flex>
       </Box>
       <Flex
