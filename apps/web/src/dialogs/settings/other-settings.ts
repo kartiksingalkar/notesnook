@@ -28,6 +28,8 @@ import { useAutoUpdateStore } from "../../hooks/use-auto-updater";
 import { IssueDialog } from "../issue-dialog";
 import { strings } from "@notesnook/intl";
 import { desktop } from "../../common/desktop-bridge";
+import { TaskManager } from "../../common/task-manager";
+import { useStore as useSettingStore } from "../../stores/setting-store";
 
 export const AboutSettings: SettingsGroup[] = [
   {
@@ -78,6 +80,9 @@ export const AboutSettings: SettingsGroup[] = [
         key: "release-track",
         title: strings.releaseTrack(),
         description: strings.releaseTrackDesc(),
+        isHidden: () =>
+          useSettingStore.getState().isFlatpak ||
+          useSettingStore.getState().isSnap,
         components: [
           {
             type: "dropdown",
@@ -110,12 +115,36 @@ export const AboutSettings: SettingsGroup[] = [
                   track: value
                 });
               }
-              const registrations =
-                (await navigator.serviceWorker?.getRegistrations()) || [];
-              for (const registration of registrations) {
+              const registration =
+                await navigator.serviceWorker.getRegistration();
+              if (!registration) return;
+              const worker =
+                registration.active ||
+                registration.waiting ||
+                registration.installing;
+              if (!worker) return;
+              if (worker.state === "activated") {
                 await registration.unregister();
+                document.cookie = `release-track=${value}; Secure; Path=/`;
+                window.location.reload();
+              } else {
+                await TaskManager.startTask({
+                  type: "modal",
+                  title: "Changing release track",
+                  subtitle:
+                    "Please wait while we switch to the new release track...",
+                  action: () =>
+                    new Promise<void>((resolve) => {
+                      worker.onstatechange = function () {
+                        if (this.state === "activated") {
+                          document.cookie = `release-track=${value}; Secure; Path=/`;
+                          resolve();
+                          window.location.reload();
+                        }
+                      };
+                    })
+                });
               }
-              window.location.reload();
             }
           }
         ]

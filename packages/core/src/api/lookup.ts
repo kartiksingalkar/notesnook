@@ -213,10 +213,11 @@ export default class Lookup {
   ) {
     const columns = fields.map((f) => f.column);
     const items = await selector.fields(columns).items();
-
+    selector.fields([]);
     return fuzzy(
       query,
       items,
+      (item) => item.id,
       Object.fromEntries(
         fields.filter((f) => !f.ignore).map((f) => [f.name, f.weight || 1])
       ) as Record<keyof T, number>,

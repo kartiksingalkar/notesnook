@@ -106,6 +106,7 @@ function TitleBox(props: TitleBoxProps) {
       wrap="soft"
       rows={1}
       sx={{
+        m: 0,
         p: 0,
         fontFamily,
         fontSize: ["1.625em", "1.625em", "2.625em"],
@@ -152,8 +153,12 @@ export default React.memo(TitleBox, (prevProps, nextProps) => {
 });
 
 function resizeTextarea(input: HTMLTextAreaElement) {
-  input.style.height = "auto";
-  input.style.height = input.scrollHeight + "px";
+  requestAnimationFrame(() => {
+    input.style.height = "auto";
+    requestAnimationFrame(() => {
+      input.style.height = input.scrollHeight + "px";
+    });
+  });
 }
 
 function onTitleChange(
