@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node
         uses: ./.github/actions/setup-node-with-cache
@@ -47,7 +47,7 @@ jobs:
           ccache -p
 
       - name: Cache Pods
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: pods-cache
         with:
           path: apps/mobile/native/ios/Pods

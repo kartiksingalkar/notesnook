@@ -225,13 +225,13 @@ export default function TabsView() {
   );
 }
 
-const MemoizedEditorView = React.memo(
-  EditorView,
-  (prev, next) =>
+const MemoizedEditorView = React.memo(EditorView, (prev, next) => {
+  return (
     prev.session.id === next.session.id &&
     prev.session.type === next.session.type &&
     prev.session.needsHydration === next.session.needsHydration
-);
+  );
+});
 function EditorView({
   session
 }: {
@@ -867,7 +867,7 @@ function restoreScrollPosition(session: EditorSession) {
 function restoreSelection(editor: IEditor, id: string) {
   setTimeout(() => {
     editor.focus({
-      position: Config.get(`${id}:selection`, { from: 0, to: 0 })
+      position: Config.get(`${id}:selection`)
     });
   });
 }
